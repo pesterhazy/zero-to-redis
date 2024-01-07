@@ -4,10 +4,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 class RailwayClient {
-  async query(q) {
+  async query(q, operationName) {
     let body = {
       query: q,
-      operationName: "me",
+      operationName: operationName,
     };
     let response = await fetch("https://backboard.railway.app/graphql/v2", {
       body: JSON.stringify(body),
@@ -31,7 +31,8 @@ class RailwayClient {
   }
 
   async me() {
-    let result = await this.query(`
+    let result = await this.query(
+      `
 query me {
   me {
     ...UserFields
@@ -43,34 +44,54 @@ fragment UserFields on User {
   email
   name
 }
-`);
+`,
+      "me",
+    );
     return result.data.me.name;
   }
 
   async findRedis() {
-    let result = await this.query(`
-query me {
-  me {
-    ...UserFields
+    let result = await this.query(
+      `
+query projects {
+  projects {
+    edges {
+      node {
+        id
+        name
+        services {
+          edges {
+            node {
+              name
+            }
+          }
+        }
+      }
+    }
   }
 }
+`,
+      "projects",
+    );
 
-fragment UserFields on User {
-  id
-  email
-  name
-}`);
+    let project = result.data.projects.edges.find((project) => {
+      return project.node.services.edges.some(
+        (edge) => edge.node.name === "Redis",
+      );
+    });
 
-    console.log("\u001B[37m\u001B[45mabracadabra\u001B[0m", result);
+    if (!project) return undefined;
+
+    return project.node.name;
   }
 }
-
-test(async function () {
-  let client = new RailwayClient();
-  assert.equal("Paulus Esterhazy", await client.me());
-});
 
 // test(async function () {
 //   let client = new RailwayClient();
-//   assert.equal("Redis", await client.findRedis());
+//   assert.equal("Paulus Esterhazy", await client.me());
 // });
+
+test(async function () {
+  let client = new RailwayClient();
+  assert.equal("naive-button", await client.findRedis());
+});
