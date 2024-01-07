@@ -18,14 +18,20 @@ class RailwayClient {
       method: "POST",
     });
 
-    if (!response.ok) throw "HTTP request failed: " + response.status;
+    if (!response.ok)
+      throw (
+        "HTTP request failed: " +
+        response.status +
+        ", " +
+        (await response.text())
+      );
 
     let json = await response.json();
-    return json.data.me.name;
+    return json;
   }
 
   async me() {
-    return this.query(`
+    let result = await this.query(`
 query me {
   me {
     ...UserFields
@@ -38,6 +44,24 @@ fragment UserFields on User {
   name
 }
 `);
+    return result.data.me.name;
+  }
+
+  async findRedis() {
+    let result = await this.query(`
+query me {
+  me {
+    ...UserFields
+  }
+}
+
+fragment UserFields on User {
+  id
+  email
+  name
+}`);
+
+    console.log("\u001B[37m\u001B[45mabracadabra\u001B[0m", result);
   }
 }
 
@@ -45,3 +69,8 @@ test(async function () {
   let client = new RailwayClient();
   assert.equal("Paulus Esterhazy", await client.me());
 });
+
+// test(async function () {
+//   let client = new RailwayClient();
+//   assert.equal("Redis", await client.findRedis());
+// });
