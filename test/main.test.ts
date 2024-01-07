@@ -157,6 +157,52 @@ mutation projectDelete($id: String!) {
 
     return result;
   }
+
+  async templateDeploy() {
+    let result = await this.gqlClient.query(
+      `
+mutation templateDeploy($input: TemplateDeployInput!) {
+  templateDeploy(input: $input) {
+    projectId
+    workflowId
+  }
+}
+    `,
+      "templateDeploy",
+      {
+        input: {
+          templateCode: "redis",
+          services: [
+            {
+              variables: {
+                REDISUSER: "default",
+                REDIS_PASSWORD:
+                  '${{ secret(32, "abcdefghijklmnopABCDEFGHIJKLMNOP123456") }}',
+                REDISPASSWORD: "${{ REDIS_PASSWORD }}",
+                REDISPORT: "${{ RAILWAY_TCP_PROXY_PORT }}",
+                REDISHOST: "${{ RAILWAY_TCP_PROXY_DOMAIN }}",
+                REDIS_URL:
+                  "redis://default:${{ REDIS_PASSWORD }}@${{ RAILWAY_TCP_PROXY_DOMAIN }}:${{ RAILWAY_TCP_PROXY_PORT }}",
+                REDIS_PRIVATE_URL:
+                  "redis://default:${{ REDIS_PASSWORD }}@${{ RAILWAY_PRIVATE_DOMAIN }}:6379",
+                RAILWAY_RUN_UID: "0",
+                RAILWAY_RUN_AS_ROOT: "true",
+              },
+              template: "bitnami/redis",
+              serviceName: "Redis",
+              serviceIcon: "https://devicons.railway.app/i/redis.svg",
+              hasDomain: false,
+              tcpProxyApplicationPort: 6379,
+              volumes: [{ name: "redis data", mountPath: "/bitnami" }],
+              id: "b4020063-80a2-4cc7-966a-57227cf4a9a0",
+            },
+          ],
+        },
+      },
+    );
+
+    return result;
+  }
 }
 
 test(async function () {
@@ -182,5 +228,21 @@ test(async function () {
   assert.deepEqual(
     { data: { projectDelete: true } },
     await client.projectDelete("4363699d-fc7b-4b2e-bfa7-17d0525eb923"),
+  );
+});
+
+test(async function () {
+  let client = new RailwayClient(new RecRailwayGQLClient(true));
+  assert.deepEqual(
+    {
+      data: {
+        templateDeploy: {
+          projectId: "d07e7997-a1c4-4f59-b88b-e869a756fcb6",
+          workflowId:
+            "deployTemplate/project/d07e7997-a1c4-4f59-b88b-e869a756fcb6/D_lJco",
+        },
+      },
+    },
+    await client.templateDeploy(),
   );
 });
