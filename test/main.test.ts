@@ -90,6 +90,24 @@ fragment UserFields on User {
     return result.data.me.name;
   }
 
+  async workflowStatus(workflowId) {
+    let result = await this.gqlClient.query(
+      `
+query workflowStatus($workflowId: String!) {
+  workflowStatus(workflowId: $workflowId) {
+    status
+    error
+  }
+}
+`,
+      "workflowStatus",
+      {
+        workflowId: workflowId,
+      },
+    );
+    return result;
+  }
+
   async findRedis() {
     let result = await this.gqlClient.query(
       `
@@ -244,5 +262,24 @@ test(async function () {
       },
     },
     await client.templateDeploy(),
+  );
+});
+
+//{"query":"query workflowStatus($workflowId: String!) {\n  workflowStatus(workflowId: $workflowId) {\n    status\n    error\n  }\n}","variables":{"workflowId":"deployTemplate/project/877308d1-e870-4bee-9c85-559f03d1116d/rLZNWn"},"operationName":"workflowStatus"}
+
+test(async function () {
+  let client = new RailwayClient(new RecRailwayGQLClient(true));
+  assert.deepEqual(
+    {
+      data: {
+        workflowStatus: {
+          error: null,
+          status: "Complete",
+        },
+      },
+    },
+    await client.workflowStatus(
+      "deployTemplate/project/877308d1-e870-4bee-9c85-559f03d1116d/rLZNWn",
+    ),
   );
 });
