@@ -1,6 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-test(function () {
-  assert.deepEqual(0, 1);
+async function me() {
+  return "Paulus Esterhazy";
+}
+
+test(async function () {
+  assert.equal("Paulus Esterhazy", await me());
 });
