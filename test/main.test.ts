@@ -8,7 +8,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, existsSync, writeFileSync } from "node:fs";
 
 function md5(s) {
   return createHash("md5").update(s).digest("hex");
@@ -54,9 +54,14 @@ class RecRailwayGQLClient {
 
   async query(query, operationName, variables?) {
     let hash = md5(JSON.stringify([query, operationName, variables]));
-    let result = this.client.query(query, operationName, variables);
-    writeFileSync("snapshots/" + hash, JSON.stringify(result));
-    return result;
+
+    if (this.replay) {
+      return JSON.parse(readFileSync("snapshots/" + hash, "utf8"));
+    } else {
+      let result = await this.client.query(query, operationName, variables);
+      writeFileSync("snapshots/" + hash, JSON.stringify(result));
+      return result;
+    }
   }
 }
 
@@ -64,7 +69,7 @@ class RailwayClient {
   gqlClient: any;
 
   constructor() {
-    this.gqlClient = new RecRailwayGQLClient();
+    this.gqlClient = new RecRailwayGQLClient(true);
   }
 
   async me() {
