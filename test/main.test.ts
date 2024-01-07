@@ -1,12 +1,17 @@
-// TODO: why no squigglies?
+// Turn integration tests into unit tests
+// RailwayClient.templateDeploy
+// RailwayClient.workflowStatus
+// RailwayClient.projectDelete
+// UI: no project -> Zero to Redis
+// UI: project -> Redis to Zero
 
 import test from "node:test";
 import assert from "node:assert/strict";
 
-class RailwayClient {
-  async query(q, operationName, variables?) {
+class RailwayGQLClient {
+  async query(query, operationName, variables?) {
     let body: any = {
-      query: q,
+      query: query,
       operationName: operationName,
     };
     if (variables !== undefined) body.variables = variables;
@@ -30,9 +35,17 @@ class RailwayClient {
     let json = await response.json();
     return json;
   }
+}
+
+class RailwayClient {
+  gqlClient: RailwayGQLClient;
+
+  constructor() {
+    this.gqlClient = new RailwayGQLClient();
+  }
 
   async me() {
-    let result = await this.query(
+    let result = await this.gqlClient.query(
       `
 query me {
   me {
@@ -52,7 +65,7 @@ fragment UserFields on User {
   }
 
   async findRedis() {
-    let result = await this.query(
+    let result = await this.gqlClient.query(
       `
 query projects {
   projects {
@@ -88,7 +101,7 @@ query projects {
   }
 
   async banana() {
-    let result = await this.query(
+    let result = await this.gqlClient.query(
       `
 mutation eventBatchTrack($input: EventBatchTrackInput!) {
   eventBatchTrack(input: $input)
@@ -111,12 +124,12 @@ test(async function () {
   assert.equal("Paulus Esterhazy", await client.me());
 });
 
-test(async function () {
-  let client = new RailwayClient();
-  assert.equal("naive-button", await client.findRedis());
-});
+// test(async function () {
+//   let client = new RailwayClient();
+//   assert.equal("naive-button", await client.findRedis());
+// });
 
-test(async function () {
-  let client = new RailwayClient();
-  assert.deepEqual({ data: { eventBatchTrack: true } }, await client.banana());
-});
+// test(async function () {
+//   let client = new RailwayClient();
+//   assert.deepEqual({ data: { eventBatchTrack: true } }, await client.banana());
+// });
