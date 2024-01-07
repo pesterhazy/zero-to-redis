@@ -68,8 +68,8 @@ class RecRailwayGQLClient {
 class RailwayClient {
   gqlClient: any;
 
-  constructor() {
-    this.gqlClient = new RecRailwayGQLClient(true);
+  constructor(gqlClient?: any) {
+    this.gqlClient = gqlClient || new RailwayGQLClient();
   }
 
   async me() {
@@ -128,7 +128,7 @@ query projects {
     return project.node.name;
   }
 
-  async banana() {
+  async eventBatchTrack() {
     let result = await this.gqlClient.query(
       `
 mutation eventBatchTrack($input: EventBatchTrackInput!) {
@@ -148,16 +148,19 @@ mutation eventBatchTrack($input: EventBatchTrackInput!) {
 }
 
 test(async function () {
-  let client = new RailwayClient();
+  let client = new RailwayClient(new RecRailwayGQLClient(true));
   assert.equal("Paulus Esterhazy", await client.me());
 });
 
-// test(async function () {
-//   let client = new RailwayClient();
-//   assert.equal("naive-button", await client.findRedis());
-// });
+test(async function () {
+  let client = new RailwayClient(new RecRailwayGQLClient(true));
+  assert.equal("naive-button", await client.findRedis());
+});
 
-// test(async function () {
-//   let client = new RailwayClient();
-//   assert.deepEqual({ data: { eventBatchTrack: true } }, await client.banana());
-// });
+test(async function () {
+  let client = new RailwayClient(new RecRailwayGQLClient(true));
+  assert.deepEqual(
+    { data: { eventBatchTrack: true } },
+    await client.eventBatchTrack(),
+  );
+});
