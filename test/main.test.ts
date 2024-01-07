@@ -4,21 +4,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 class RailwayClient {
-  async me() {
+  async query(q) {
     let body = {
-      query: `
-query me {
-  me {
-    ...UserFields
-  }
-}
-
-fragment UserFields on User {
-  id
-  email
-  name
-}
-`,
+      query: q,
       operationName: "me",
     };
     let response = await fetch("https://backboard.railway.app/graphql/v2", {
@@ -34,6 +22,22 @@ fragment UserFields on User {
 
     let json = await response.json();
     return json.data.me.name;
+  }
+
+  async me() {
+    return this.query(`
+query me {
+  me {
+    ...UserFields
+  }
+}
+
+fragment UserFields on User {
+  id
+  email
+  name
+}
+`);
   }
 }
 
