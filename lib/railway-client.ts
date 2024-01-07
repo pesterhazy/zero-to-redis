@@ -1,8 +1,10 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
+
 function md5(s) {
   return createHash("md5").update(s).digest("hex");
 }
+
 export class RailwayGQLClient {
   async query(query, operationName, variables?) {
     let body: any = {
