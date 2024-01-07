@@ -1,7 +1,5 @@
-// Turn integration tests into unit tests
 // RailwayClient.templateDeploy
 // RailwayClient.workflowStatus
-// RailwayClient.projectDelete
 // UI: no project -> Zero to Redis
 // UI: project -> Redis to Zero
 
@@ -145,6 +143,20 @@ mutation eventBatchTrack($input: EventBatchTrackInput!) {
 
     return result;
   }
+
+  async projectDelete(id: string) {
+    let result = await this.gqlClient.query(
+      `
+mutation projectDelete($id: String!) {
+  projectDelete(id: $id)
+}
+`,
+      "projectDelete",
+      { id: id },
+    );
+
+    return result;
+  }
 }
 
 test(async function () {
@@ -162,5 +174,13 @@ test(async function () {
   assert.deepEqual(
     { data: { eventBatchTrack: true } },
     await client.eventBatchTrack(),
+  );
+});
+
+test(async function () {
+  let client = new RailwayClient(new RecRailwayGQLClient(true));
+  assert.deepEqual(
+    { data: { projectDelete: true } },
+    await client.projectDelete("4363699d-fc7b-4b2e-bfa7-17d0525eb923"),
   );
 });
