@@ -1,9 +1,9 @@
 import express from "express";
 
-const port = 4004;
+const defaultPort = 4004;
 
-export function run() {
+export function run(port = defaultPort) {
   let app = express();
 
-  return app.listen(4004);
+  return app.listen(port);
 }
