@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "tsx lib/index.ts",
     "test": "watchexec -- beep-boop node --import tsx/esm --test '**/*.test.ts'"
   },
   "type": "module",
