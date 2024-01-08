@@ -3,7 +3,12 @@ import assert from "node:assert/strict";
 
 import * as server from "../lib/server.ts";
 
-test(() => {
-  let httpServer = server.run(0);
-  httpServer.close();
+test(async () => {
+  let httpServer: any = await server.run(0);
+  try {
+    let result = await fetch("http://localhost:" + httpServer.address().port);
+    assert.ok(result.ok);
+  } finally {
+    httpServer.close();
+  }
 });
