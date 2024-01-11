@@ -1,5 +1,7 @@
+export {};
+
 function hello(s: string) {
-  console.log("HELLO", s);
+  document.body.innerHTML = "HeLlO " + s;
 }
 
 hello("world");
