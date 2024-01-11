@@ -6,4 +6,4 @@ document.body.innerHTML = '<div id="app"></div>';
 // Render your React component instead
 const root = createRoot((document as any).getElementById("app"));
 
-root.render(<h1>Hello, world 2</h1>);
+root.render(<h1>Hello, world</h1>);
