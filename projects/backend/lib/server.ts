@@ -25,7 +25,6 @@ async function start() {
   let client = new RailwayClient();
 
   let result = await client.templateDeploy();
-  console.log("\u001B[37m\u001B[45mabracadabra\u001B[0m", result);
   let workflowId = result.data.templateDeploy.workflowId;
 
   let attempts = 0;
@@ -40,13 +39,25 @@ async function start() {
   }
 }
 
+async function stop({ id }) {
+  let client = new RailwayClient();
+
+  return await client.projectDelete(id);
+}
+
 export async function run(port = defaultPort) {
   let app = express();
   const router = Router();
+  app.use(express.json());
   app.use(router);
 
   router.post("/start", async (req, res) => {
-    res.send(JSON.stringify(await start()));
+    res.send(await start());
+    res.status(200).end();
+  });
+
+  router.post("/stop", async (req, res) => {
+    res.send(await stop(req.body));
     res.status(200).end();
   });
 
