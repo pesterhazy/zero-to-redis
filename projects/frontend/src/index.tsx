@@ -7,6 +7,12 @@ function start() {
   });
 }
 
+function stop() {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 600);
+  });
+}
+
 function App() {
   let [state, setState] = useState({ label: "idle" });
   let onStart = async () => {
@@ -14,10 +20,28 @@ function App() {
     await start();
     setState({ label: "started" });
   };
+  let onStop = async () => {
+    setState({ label: "stopping" });
+    await stop();
+    setState({ label: "idle" });
+  };
+  let MyButton = () => {
+    if (state.label === "idle") {
+      return <button onClick={onStart}>start</button>;
+    } else if (state.label === "starting") {
+      return <button disabled={true}>start</button>;
+    } else if (state.label === "started") {
+      return <button onClick={onStop}>stop</button>;
+    } else if (state.label === "stopping") {
+      return <button disabled={true}>stop</button>;
+    } else {
+      throw Error("Unknown state");
+    }
+  };
   return (
     <div>
       <div>label: {state.label}</div>
-      <button onClick={onStart}>start</button>
+      <MyButton />
     </div>
   );
 }
