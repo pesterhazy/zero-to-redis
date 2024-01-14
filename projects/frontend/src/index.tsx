@@ -1,5 +1,12 @@
 import { createRoot } from "react-dom/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+let baseUrl = "http://localhost:4004";
+
+async function find() {
+  let result = fetch(baseUrl + "/find");
+  if (!result.ok) throw "Fetch failed";
+}
 
 function start() {
   return new Promise((resolve) => {
@@ -14,7 +21,20 @@ function stop() {
 }
 
 function App() {
-  let [state, setState] = useState({ label: "idle" });
+  let [state, setState] = useState({ label: "initial" });
+  console.log(state);
+
+  useEffect(() => {
+    if (state.label === "initial") {
+      async function load() {
+        let result = find();
+
+        console.log("result", result);
+      }
+      setState({ label: "loading" });
+      load();
+    }
+  });
   let onStart = async () => {
     setState({ label: "starting" });
     await start();
@@ -34,8 +54,10 @@ function App() {
       return <button onClick={onStop}>stop</button>;
     } else if (state.label === "stopping") {
       return <button disabled={true}>stop</button>;
+    } else if (state.label === "initial" || state.label === "loading") {
+      return <button disabled={true}>loading</button>;
     } else {
-      throw Error("Unknown state");
+      throw Error("Unknown state:" + state.label);
     }
   };
   return (
