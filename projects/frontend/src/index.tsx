@@ -31,6 +31,9 @@ function App() {
         let result = await find();
 
         console.log("result", result);
+        if ("redis" in result) {
+          setState({ label: "started", data: result });
+        }
       }
       setState({ label: "loading" });
       load();
@@ -52,7 +55,12 @@ function App() {
     } else if (state.label === "starting") {
       return <button disabled={true}>start</button>;
     } else if (state.label === "started") {
-      return <button onClick={onStop}>stop</button>;
+      return (
+        <div>
+          <div>{JSON.stringify(state.data)} </div>
+          <button onClick={onStop}>stop</button>
+        </div>
+      );
     } else if (state.label === "stopping") {
       return <button disabled={true}>stop</button>;
     } else if (state.label === "initial" || state.label === "loading") {
