@@ -35,9 +35,9 @@ async function stop(id) {
 function StartedView({ data }) {
   return (
     <pre>
-      name: {data.redis.projectName}
+      <b>{data.redis.projectName}</b>
       <br />
-      redis url: {data.variables.variables.REDIS_URL}
+      {data.variables.variables.REDIS_URL}
       <br />
     </pre>
   );
