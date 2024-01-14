@@ -114,6 +114,15 @@ query projects {
           edges {
             node {
               name
+              id
+            }
+          }
+        }
+        environments {
+          edges {
+            node {
+              name
+              id
             }
           }
         }
@@ -134,7 +143,12 @@ query projects {
 
     if (!project) return undefined;
 
-    return project.node.name;
+    return {
+      "project-name": project.node.name,
+      "project-id": project.node.id,
+      "service-id": project.node.services.edges[0].node.id,
+      "environment-id": project.node.environments.edges[0].node.id,
+    };
   }
 
   async eventBatchTrack() {

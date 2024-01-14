@@ -13,6 +13,10 @@
     ]
 */
 
+/*
+  "query variables($projectId: String!, $environmentId: String!, $pluginId: String, $serviceId: String) {\n  variables: variables(\n    projectId: $projectId\n    environmentId: $environmentId\n    pluginId: $pluginId\n    serviceId: $serviceId\n  )\n  unrenderedVariables: variables(\n    projectId: $projectId\n    environmentId: $environmentId\n    pluginId: $pluginId\n    serviceId: $serviceId\n    unrendered: true\n  )\n}"
+  */
+
 import express from "express";
 import Router from "express-promise-router";
 import { RailwayClient } from "./railway-client";
@@ -45,6 +49,12 @@ async function stop({ id }) {
   return await client.projectDelete(id);
 }
 
+async function find() {
+  let client = new RailwayClient();
+
+  return await client.findRedis();
+}
+
 export async function run(port = defaultPort) {
   let app = express();
   const router = Router();
@@ -58,6 +68,11 @@ export async function run(port = defaultPort) {
 
   router.post("/stop", async (req, res) => {
     res.send(await stop(req.body));
+    res.status(200).end();
+  });
+
+  router.post("/find", async (req, res) => {
+    res.send(await find());
     res.status(200).end();
   });
 
