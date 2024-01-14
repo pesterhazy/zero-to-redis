@@ -34,6 +34,10 @@ export class RailwayGQLClient {
   }
 }
 
+interface IRailwayGQLClient {
+  query(query, operationName, variables?);
+}
+
 export class RecRailwayGQLClient {
   client: RailwayGQLClient;
   replay: boolean;
@@ -60,9 +64,9 @@ export class RecRailwayGQLClient {
 }
 
 export class RailwayClient {
-  gqlClient: any;
+  gqlClient: IRailwayGQLClient;
 
-  constructor(gqlClient?: any) {
+  constructor(gqlClient?: IRailwayGQLClient | undefined) {
     this.gqlClient = gqlClient || new RailwayGQLClient();
   }
 
