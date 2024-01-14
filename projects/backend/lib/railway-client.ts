@@ -39,10 +39,17 @@ interface IRailwayGQLClient {
 }
 
 export class RecRailwayGQLClient {
+  /**
+   * Recording GQL Client, similar to https://github.com/vcr/vcr
+   *
+   * This client allows you to test interactions with HTTP servers
+   * without making actual HTTP requests.
+   */
   client: RailwayGQLClient;
   replay: boolean;
   suffix: string;
 
+  /** Pass replay=true to enable recording */
   constructor(replay: boolean = false, suffix: string = "") {
     this.client = new RailwayGQLClient();
     this.replay = replay;
