@@ -54,7 +54,7 @@ async function find() {
   let client = new RailwayClient();
 
   let redis = await client.findRedis();
-  if (!("redis" in redis)) return {};
+  if (!("projectId" in redis)) return {};
 
   let variables = await client.variables({
     projectId: redis.projectId,

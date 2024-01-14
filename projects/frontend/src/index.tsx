@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 
 let baseUrl = "http://localhost:4004";
 
+function timeout(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function find() {
   let result = await fetch(baseUrl + "/find", { method: "POST" });
   if (!result.ok) throw "Fetch failed";
@@ -61,6 +65,7 @@ function App() {
   let onStart = async () => {
     setState({ label: "starting" });
     await start();
+    await timeout(3000);
     await load();
   };
   let onStop = async () => {
