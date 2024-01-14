@@ -4,9 +4,14 @@ import assert from "node:assert/strict";
 import * as server from "../lib/server.ts";
 
 test(async () => {
-  let httpServer: any = await server.run(0);
+  let [router, httpServer]: any = await server.run(0);
   try {
-    let result = await fetch("http://localhost:" + httpServer.address().port);
+    router.get("/test", async (req, res) => {
+      res.status(200).end();
+    });
+    let result = await fetch(
+      "http://localhost:" + httpServer.address().port + "/test",
+    );
     assert.ok(result.ok);
   } finally {
     httpServer.close();

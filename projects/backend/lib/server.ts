@@ -79,7 +79,7 @@ export async function run(port = defaultPort) {
   return new Promise((resolve) => {
     let httpServer = app.listen(port, () => {
       console.log("Ready at port", port);
-      resolve(httpServer);
+      resolve([router, httpServer]);
     });
   });
 }

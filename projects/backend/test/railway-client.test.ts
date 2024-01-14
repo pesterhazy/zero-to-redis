@@ -6,7 +6,7 @@ import { RecRailwayGQLClient, RailwayClient } from "../lib/railway-client.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
 
-test(async function () {
+test("returns name", async function () {
   let client = new RailwayClient(new RecRailwayGQLClient(true));
   assert.equal("Paulus Esterhazy", await client.me());
 });
