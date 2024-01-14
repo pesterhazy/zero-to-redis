@@ -138,7 +138,7 @@ query projects {
     );
 
     let project = result.data.projects.edges.find((project) => {
-      // Hackity hack: find project that has a service called Redis
+      // HACK: find project based on heuristic
       return project.node.services.edges.some(
         (edge) => edge.node.name === "Redis",
       );

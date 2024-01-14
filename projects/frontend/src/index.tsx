@@ -65,6 +65,7 @@ function App() {
   let onStart = async () => {
     setState({ label: "starting" });
     await start();
+    // HACK: the project doesn't always show up once the workflows completes
     await timeout(3000);
     await load();
   };
