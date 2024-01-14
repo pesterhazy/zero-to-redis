@@ -15,10 +15,17 @@ function start() {
   });
 }
 
-function stop() {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 600);
+async function stop(id) {
+  let result = await fetch(baseUrl + "/stop", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id }),
   });
+  if (!result.ok) throw "Fetch failed";
+  return await result.json();
 }
 
 function StartedView({ data }) {
@@ -40,8 +47,6 @@ function App() {
     if (state.label === "initial") {
       async function load() {
         let result = await find();
-
-        console.log("result", result);
         if ("redis" in result) {
           setState({ label: "started", data: result });
         }
@@ -57,7 +62,7 @@ function App() {
   };
   let onStop = async () => {
     setState({ label: "stopping" });
-    await stop();
+    await stop(state.data.redis.projectId);
     setState({ label: "idle" });
   };
   let MyButton = () => {
