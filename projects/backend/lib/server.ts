@@ -52,8 +52,18 @@ async function stop({ id }) {
 async function find() {
   let client = new RailwayClient();
 
-  let result = await client.findRedis();
-  return result;
+  let redis = await client.findRedis();
+  let variables = await client.variables({
+    projectId: redis.projectId,
+    serviceId: redis.serviceId,
+    environmentId: redis.environmentId,
+  });
+  console.log({
+    projectId: redis.projectId,
+    serviceId: redis.serviceId,
+    environmentId: redis.environmentId,
+  });
+  return { redis, variables };
 }
 
 export async function run(port = defaultPort) {
