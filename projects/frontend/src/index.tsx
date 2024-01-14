@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 let baseUrl = "http://localhost:4004";
 
 async function find() {
-  let result = fetch(baseUrl + "/find");
+  let result = await fetch(baseUrl + "/find", { method: "POST" });
   if (!result.ok) throw "Fetch failed";
+  return await result.json();
 }
 
 function start() {
@@ -27,7 +28,7 @@ function App() {
   useEffect(() => {
     if (state.label === "initial") {
       async function load() {
-        let result = find();
+        let result = await find();
 
         console.log("result", result);
       }
