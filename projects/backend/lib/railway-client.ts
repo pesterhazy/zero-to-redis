@@ -144,10 +144,10 @@ query projects {
     if (!project) return undefined;
 
     return {
-      "project-name": project.node.name,
-      "project-id": project.node.id,
-      "service-id": project.node.services.edges[0].node.id,
-      "environment-id": project.node.environments.edges[0].node.id,
+      projectName: project.node.name,
+      projectId: project.node.id,
+      serviceId: project.node.services.edges[0].node.id,
+      environmentId: project.node.environments.edges[0].node.id,
     };
   }
 

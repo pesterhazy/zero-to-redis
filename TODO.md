@@ -1,1 +1,2 @@
 - un-ignore test snapshots
+- remove beep-boop

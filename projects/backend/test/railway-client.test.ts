@@ -15,10 +15,10 @@ test(async function () {
   let client = new RailwayClient(new RecRailwayGQLClient(true));
   assert.deepEqual(
     {
-      "project-name": "trusty-party",
-      "project-id": "bd9ea61e-d7b5-4590-91da-9b7cb8b8b796",
-      "service-id": "86e18e3e-278d-4fc1-a71a-8da6050b9f6b",
-      "environment-id": "76e0cfd5-4b75-4e4e-8f0d-0a5716a8e36e",
+      projectName: "trusty-party",
+      projectId: "bd9ea61e-d7b5-4590-91da-9b7cb8b8b796",
+      serviceId: "86e18e3e-278d-4fc1-a71a-8da6050b9f6b",
+      environmentId: "76e0cfd5-4b75-4e4e-8f0d-0a5716a8e36e",
     },
     await client.findRedis(),
   );
