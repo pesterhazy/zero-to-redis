@@ -37,7 +37,7 @@ function StartedView({ data }) {
     <pre>
       <b>{data.redis.projectName}</b>
       <br />
-      {data.variables.variables.REDIS_URL}
+      redis-cli -u {data.variables.variables.REDIS_URL}
       <br />
     </pre>
   );
