@@ -9,10 +9,10 @@ async function find() {
   return await result.json();
 }
 
-function start() {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 600);
-  });
+async function start() {
+  let result = await fetch(baseUrl + "/start", { method: "POST" });
+  if (!result.ok) throw "Fetch failed";
+  return await result.json();
 }
 
 async function stop(id) {
