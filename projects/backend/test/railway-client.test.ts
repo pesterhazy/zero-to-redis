@@ -6,11 +6,6 @@ import { RecRailwayGQLClient, RailwayClient } from "../lib/railway-client.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
 
-test("returns name", async function () {
-  let client = new RailwayClient(new RecRailwayGQLClient(true));
-  assert.equal("Paulus Esterhazy", await client.me());
-});
-
 test(async function () {
   let client = new RailwayClient(new RecRailwayGQLClient(true));
   assert.deepEqual(
@@ -27,14 +22,6 @@ test(async function () {
 test(async function () {
   let client = new RailwayClient(new RecRailwayGQLClient(true, "empty"));
   assert.deepEqual({}, await client.findRedis());
-});
-
-test(async function () {
-  let client = new RailwayClient(new RecRailwayGQLClient(true));
-  assert.deepEqual(
-    { data: { eventBatchTrack: true } },
-    await client.eventBatchTrack(),
-  );
 });
 
 test(async function () {

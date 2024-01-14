@@ -77,26 +77,6 @@ export class RailwayClient {
     this.gqlClient = gqlClient || new RailwayGQLClient();
   }
 
-  async me() {
-    let result = await this.gqlClient.query(
-      `
-query me {
-  me {
-    ...UserFields
-  }
-}
-
-fragment UserFields on User {
-  id
-  email
-  name
-}
-`,
-      "me",
-    );
-    return result.data.me.name;
-  }
-
   async workflowStatus(workflowId) {
     let result = await this.gqlClient.query(
       `
@@ -163,24 +143,6 @@ query projects {
       serviceId: project.node.services.edges[0].node.id,
       environmentId: project.node.environments.edges[0].node.id,
     };
-  }
-
-  async eventBatchTrack() {
-    let result = await this.gqlClient.query(
-      `
-mutation eventBatchTrack($input: EventBatchTrackInput!) {
-  eventBatchTrack(input: $input)
-}
-`,
-      "eventBatchTrack",
-      {
-        input: {
-          events: [],
-        },
-      },
-    );
-
-    return result;
   }
 
   async projectDelete(id: string) {
