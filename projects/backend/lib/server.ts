@@ -52,7 +52,8 @@ async function stop({ id }) {
 async function find() {
   let client = new RailwayClient();
 
-  return await client.findRedis();
+  let result = await client.findRedis();
+  return result;
 }
 
 export async function run(port = defaultPort) {

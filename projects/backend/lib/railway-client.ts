@@ -229,7 +229,7 @@ mutation templateDeploy($input: TemplateDeployInput!) {
     return result;
   }
 
-  async variables(projectId, environmentId, serviceId) {
+  async variables({ projectId, environmentId, serviceId }) {
     let result = await this.gqlClient.query(
       `
 query variables($projectId: String!, $environmentId: String!, $pluginId: String, $serviceId: String) {
