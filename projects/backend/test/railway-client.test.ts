@@ -72,3 +72,13 @@ test(async function () {
     ),
   );
 });
+
+test(async function () {
+  let client = new RailwayClient(new RecRailwayGQLClient(true));
+  let result = await client.variables(
+    "bd9ea61e-d7b5-4590-91da-9b7cb8b8b796",
+    "76e0cfd5-4b75-4e4e-8f0d-0a5716a8e36e",
+    "86e18e3e-278d-4fc1-a71a-8da6050b9f6b",
+  );
+  assert.equal(result.variables.REDISHOST, "viaduct.proxy.rlwy.net");
+});

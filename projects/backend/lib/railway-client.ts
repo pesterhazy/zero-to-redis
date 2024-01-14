@@ -228,4 +228,33 @@ mutation templateDeploy($input: TemplateDeployInput!) {
 
     return result;
   }
+
+  async variables(projectId, environmentId, serviceId) {
+    let result = await this.gqlClient.query(
+      `
+query variables($projectId: String!, $environmentId: String!, $pluginId: String, $serviceId: String) {
+  variables: variables(
+    projectId: $projectId
+    environmentId: $environmentId
+    pluginId: $pluginId
+    serviceId: $serviceId
+  )
+  unrenderedVariables: variables(
+    projectId: $projectId
+    environmentId: $environmentId
+    pluginId: $pluginId
+    serviceId: $serviceId
+    unrendered: true
+  )
+}
+`,
+      "variables",
+      {
+        projectId,
+        environmentId,
+        serviceId,
+      },
+    );
+    return result.data;
+  }
 }
