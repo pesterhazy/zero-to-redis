@@ -25,6 +25,11 @@ test(async function () {
 });
 
 test(async function () {
+  let client = new RailwayClient(new RecRailwayGQLClient(true, "empty"));
+  assert.deepEqual(undefined, await client.findRedis());
+});
+
+test(async function () {
   let client = new RailwayClient(new RecRailwayGQLClient(true));
   assert.deepEqual(
     { data: { eventBatchTrack: true } },

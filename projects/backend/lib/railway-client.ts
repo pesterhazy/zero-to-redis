@@ -37,14 +37,17 @@ export class RailwayGQLClient {
 export class RecRailwayGQLClient {
   client: RailwayGQLClient;
   replay: boolean;
+  suffix: string;
 
-  constructor(replay: boolean = false) {
+  constructor(replay: boolean = false, suffix: string = "") {
     this.client = new RailwayGQLClient();
     this.replay = replay;
+    this.suffix = suffix;
   }
 
   async query(query, operationName, variables?) {
-    let hash = md5(JSON.stringify([query, operationName, variables]));
+    let hash =
+      md5(JSON.stringify([query, operationName, variables])) + this.suffix;
 
     if (this.replay) {
       return JSON.parse(readFileSync("snapshots/" + hash, "utf8"));
