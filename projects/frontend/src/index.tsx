@@ -43,14 +43,17 @@ function App() {
   let [state, setState] = useState({ label: "initial" });
   console.log(state);
 
+  async function load() {
+    let result = await find();
+    if ("redis" in result) {
+      setState({ label: "started", data: result });
+    } else {
+      setState({ label: "idle" });
+    }
+  }
+
   useEffect(() => {
     if (state.label === "initial") {
-      async function load() {
-        let result = await find();
-        if ("redis" in result) {
-          setState({ label: "started", data: result });
-        }
-      }
       setState({ label: "loading" });
       load();
     }
@@ -58,7 +61,7 @@ function App() {
   let onStart = async () => {
     setState({ label: "starting" });
     await start();
-    setState({ label: "started" });
+    await load();
   };
   let onStop = async () => {
     setState({ label: "stopping" });

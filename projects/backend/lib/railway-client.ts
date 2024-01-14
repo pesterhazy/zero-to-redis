@@ -144,7 +144,7 @@ query projects {
       );
     });
 
-    if (!project) return undefined;
+    if (!project) return {};
 
     return {
       projectName: project.node.name,
