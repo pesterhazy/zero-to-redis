@@ -58,11 +58,6 @@ async function find() {
     serviceId: redis.serviceId,
     environmentId: redis.environmentId,
   });
-  console.log({
-    projectId: redis.projectId,
-    serviceId: redis.serviceId,
-    environmentId: redis.environmentId,
-  });
   return { redis, variables };
 }
 
