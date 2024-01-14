@@ -7,11 +7,11 @@ function md5(s) {
 
 export class RailwayGQLClient {
   async query(query, operationName, variables?) {
-    let body: any = {
+    let body = {
       query: query,
       operationName: operationName,
+      variables: variables,
     };
-    if (variables !== undefined) body.variables = variables;
     let response = await fetch("https://backboard.railway.app/graphql/v2", {
       body: JSON.stringify(body),
       headers: {
