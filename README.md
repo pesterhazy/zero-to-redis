@@ -2,6 +2,12 @@
 
 What if you could start a Redis instance in less than 10 seconds? Well, now you can!
 
+# Guiding Principles
+
+- Testing: backend logic is tested using VCR technique (fast isolated unit tests)
+- Minimalist dependencies: use node test framework, express and parcel
+- Simplicity: use state machine to simplify frontend code
+
 # Usage
 
 ```
