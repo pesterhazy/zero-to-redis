@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import * as server from "../lib/server.ts";
 
 test(async () => {
-  let [router, httpServer]: any = await server.run(0);
+  let [router, httpServer] = (await server.run(0)) as any;
   try {
     router.get("/test", async (req, res) => {
       res.status(200).end();
