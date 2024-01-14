@@ -19,6 +19,7 @@
 
 import express from "express";
 import Router from "express-promise-router";
+import cors from "cors";
 import { RailwayClient } from "./railway-client";
 
 const defaultPort = 4004;
@@ -64,6 +65,7 @@ async function find() {
 export async function run(port = defaultPort) {
   let app = express();
   const router = Router();
+  app.use(cors());
   app.use(express.json());
   app.use(router);
 
