@@ -20,7 +20,6 @@ export class RailwayGQLClient {
       },
       method: "POST",
     });
-
     if (!response.ok)
       throw (
         "HTTP request failed: " +
@@ -30,6 +29,14 @@ export class RailwayGQLClient {
       );
 
     let json = await response.json();
+
+    if (
+      typeof json === "object" &&
+      "errors" in json &&
+      json.errors.length > 0
+    ) {
+      throw "Railway request failed: " + JSON.stringify(json.errors);
+    }
     return json;
   }
 }
