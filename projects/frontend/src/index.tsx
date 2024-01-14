@@ -96,7 +96,6 @@ function App() {
   };
   return (
     <div>
-      <div>label: {state.label}</div>
       <MyButton />
     </div>
   );
