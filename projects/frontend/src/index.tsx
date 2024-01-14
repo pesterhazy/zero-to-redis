@@ -81,10 +81,10 @@ function App() {
       return <button disabled={true}>start</button>;
     } else if (state.label === "started") {
       return (
-        <div>
+        <aside>
           <StartedView data={state.data} />
           <button onClick={onStop}>stop</button>
-        </div>
+        </aside>
       );
     } else if (state.label === "stopping") {
       return <button disabled={true}>stop</button>;
