@@ -21,6 +21,17 @@ function stop() {
   });
 }
 
+function StartedView({ data }) {
+  return (
+    <pre>
+      name: {data.redis.projectName}
+      <br />
+      redis url: {data.variables.variables.REDIS_URL}
+      <br />
+    </pre>
+  );
+}
+
 function App() {
   let [state, setState] = useState({ label: "initial" });
   console.log(state);
@@ -57,7 +68,7 @@ function App() {
     } else if (state.label === "started") {
       return (
         <div>
-          <div>{JSON.stringify(state.data)} </div>
+          <StartedView data={state.data} />
           <button onClick={onStop}>stop</button>
         </div>
       );
