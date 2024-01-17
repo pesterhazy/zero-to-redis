@@ -101,7 +101,6 @@ function App() {
   );
 }
 
-// Render your React component instead
 const root = createRoot((document as any).getElementById("app"));
 
 root.render(<App />);

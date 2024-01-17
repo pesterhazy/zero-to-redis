@@ -1,22 +1,3 @@
-// TODO:
-
-/*
-  ERROR HANDLING:
-
-    errors: [
-    {
-      message: 'Free plan resource provision limit exceeded. Please upgrade to provision more resources!',
-      locations: [Array],
-      path: [Array],
-      extensions: [Object]
-    }
-    ]
-*/
-
-/*
-  "query variables($projectId: String!, $environmentId: String!, $pluginId: String, $serviceId: String) {\n  variables: variables(\n    projectId: $projectId\n    environmentId: $environmentId\n    pluginId: $pluginId\n    serviceId: $serviceId\n  )\n  unrenderedVariables: variables(\n    projectId: $projectId\n    environmentId: $environmentId\n    pluginId: $pluginId\n    serviceId: $serviceId\n    unrendered: true\n  )\n}"
-  */
-
 import express from "express";
 import Router from "express-promise-router";
 import cors from "cors";
