@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail && cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+pushd projects/frontend
+npm run build
+popd
+docker build . -t zero-to-redis
+docker run -e RAILWAY_API_TOKEN -p 127.0.0.1:4004:4004 zero-to-redis
