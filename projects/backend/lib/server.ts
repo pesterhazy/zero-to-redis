@@ -69,7 +69,7 @@ export async function run(port = defaultPort) {
   const router = Router();
   app.use(cors());
   app.use(express.json());
-  app.use(express.static("../../projects/frontend/dist"));
+  app.use(express.static("dist"));
   app.use(router);
 
   router.post("/start", async (req, res) => {
