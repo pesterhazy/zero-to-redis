@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { useState, useEffect } from "react";
 
-let baseUrl = "http://localhost:4004";
+let baseUrl = "";
 
 function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
