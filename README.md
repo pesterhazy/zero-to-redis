@@ -2,7 +2,7 @@
 
 What if you could start a Redis instance in less than 10 seconds? Well, now you can!
 
-![Screenshot](screenshot.png)
+<img src="screenshot.png" width=200>
 
 Zero To Redis uses the [Railway hosting plaform](https://railway.app/) to spin up a Redis server. It gives you a `redis://` URL to connect to the new server.
 
