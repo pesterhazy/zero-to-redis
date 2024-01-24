@@ -2,7 +2,13 @@
 
 What if you could start a Redis instance in less than 10 seconds? Well, now you can!
 
+Zero To Redis uses the [Railway hosting plaform](https://railway.app/) to spin up a Redis server. It gives you a `redis://` URL to connect to the new server.
+
 # Guiding Principles
+
+Zero To Redis is written in a style that combines a pragmatic approach (which lets you get stuff done quickly) with a focus on code quality (which helps you avoid slowing down due to technical debt after a few months).
+
+Some guiding principles used:
 
 - Testing: backend logic is tested using VCR technique (fast isolated unit tests)
 - Minimalist dependencies: use node test framework, express and parcel
@@ -29,7 +35,7 @@ open http://localhost:1234/
 
 # Tests
 
-The backend has a fairly comprehensive test suite.
+To show an approach to automated testing, the backend project contains a comprehensive test suite covering all external HTTP calls.
 
 ```
 cd projects/backend
