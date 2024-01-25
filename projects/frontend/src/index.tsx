@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { useState, useEffect } from "react";
 
-let baseUrl = "";
+let baseUrl = "/api";
 
 function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

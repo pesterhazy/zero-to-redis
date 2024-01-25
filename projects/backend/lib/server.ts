@@ -53,17 +53,17 @@ export async function run(port = defaultPort) {
   app.use(express.static("dist"));
   app.use(router);
 
-  router.post("/start", async (req, res) => {
+  router.post("/api/start", async (req, res) => {
     res.send(await start());
     res.status(200).end();
   });
 
-  router.post("/stop", async (req, res) => {
+  router.post("/api/stop", async (req, res) => {
     res.send(await stop(req.body));
     res.status(200).end();
   });
 
-  router.post("/find", async (req, res) => {
+  router.post("/api/find", async (req, res) => {
     res.send(await find());
     res.status(200).end();
   });
