@@ -14,3 +14,4 @@ fragment UserFields on User {
   name
 }
 ```
+- [ ] restart last deployment
