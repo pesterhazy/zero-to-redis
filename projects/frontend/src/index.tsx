@@ -74,7 +74,7 @@ function App() {
     await stop(state.data.redis.projectId);
     setState({ label: "idle" });
   };
-  let MyButton = () => {
+  let StateView = () => {
     if (state.label === "idle") {
       return <button onClick={onStart}>start</button>;
     } else if (state.label === "starting") {
@@ -96,7 +96,7 @@ function App() {
   };
   return (
     <div>
-      <MyButton />
+      <StateView />
     </div>
   );
 }

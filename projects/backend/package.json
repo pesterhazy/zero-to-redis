@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsx lib/index.ts",
     "test-watch": "watchexec --on-busy-update=do-nothing -- npm test",
+    "test-watch-beep": "watchexec --on-busy-update=do-nothing -- beep-boop npm test",
     "test": "node --import tsx/esm --test **/*.test.ts"
   },
   "type": "module",
