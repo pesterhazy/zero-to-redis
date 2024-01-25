@@ -48,7 +48,13 @@ function App() {
   console.log(state);
 
   async function load() {
-    let result = await find();
+    let result;
+    try {
+      result = await find();
+    } catch (e) {
+      setState({ label: "error" });
+      return;
+    }
     if ("redis" in result) {
       setState({ label: "started", data: result });
     } else {
@@ -74,6 +80,10 @@ function App() {
     await stop(state.data.redis.projectId);
     setState({ label: "idle" });
   };
+
+  let onRetry = async () => {
+    location.reload();
+  };
   let StateView = () => {
     if (state.label === "idle") {
       return <button onClick={onStart}>start</button>;
@@ -90,6 +100,13 @@ function App() {
       return <button disabled={true}>stop</button>;
     } else if (state.label === "initial" || state.label === "loading") {
       return <button disabled={true}>loading</button>;
+    } else if (state.label === "error") {
+      return (
+        <aside>
+          <div>Server request failed</div>
+          <button onClick={onRetry}>retry</button>
+        </aside>
+      );
     } else {
       throw Error("Unknown state:" + state.label);
     }
